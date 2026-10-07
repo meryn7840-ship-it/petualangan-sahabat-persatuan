@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Petualangan Sahabat Persatuan</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#24415b;background:linear-gradient(#74d3ff,#eefaff);min-height:100vh}
+.page{display:none;min-height:100vh;padding:20px;align-items:center;justify-content:center}.page.on{display:flex}
+.card{width:min(900px,100%);background:#fffffff2;border-radius:28px;padding:25px;text-align:center;box-shadow:0 12px 35px #245b7430}
+h1{font-size:clamp(32px,7vw,60px);color:#18577e;margin:8px}h2{color:#17628b}.sub{font-size:20px}
+.btn{border:0;border-radius:16px;padding:13px 20px;margin:6px;background:#ffc857;color:#573700;font-weight:bold;cursor:pointer;box-shadow:0 4px #d59a26}.blue{background:#67cbed;color:#073e59;box-shadow:0 4px #2996bc}.green{background:#7bd69b;color:#124c2c;box-shadow:0 4px #45a967}.pink{background:#ff9fb6;color:#672038;box-shadow:0 4px #d96e89}
+.hero{font-size:80px}.chars{font-size:60px;animation:bob 2s infinite}.rainbow{font-size:55px}@keyframes bob{50%{transform:translateY(-7px)}}
+input,textarea{width:100%;padding:13px;margin:6px 0;border:2px solid #b9dce9;border-radius:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.box{background:#f0fbff;border:3px solid #bde5f2;border-radius:18px;padding:15px}
+.map{height:560px;position:relative;border-radius:30px;background:linear-gradient(#70d4ff,#dff8ff);overflow:hidden}.cloud{position:absolute;width:150px;min-height:90px;border:5px solid #ffe28a;border-radius:50%;background:white;font-weight:bold;box-shadow:0 7px 14px #31738a44;cursor:pointer}.a{top:7%;left:5%}.b{top:5%;right:5%}.c{top:36%;left:30%}.d{top:42%;right:24%}.e{bottom:7%;left:7%}.f{bottom:2%;right:7%}
+.house{font-size:90px;background:#fff;border-radius:25px;padding:25px;display:inline-block;cursor:pointer}.hidden{display:none}.house-list{margin-top:15px}
+.choice{display:block;width:100%;margin:9px 0;padding:13px;border:0;border-radius:14px;background:#dff5ff;cursor:pointer;font-weight:bold}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}.item{padding:13px;border:3px solid #b9dfec;border-radius:14px;background:#f4fcff;cursor:pointer}.selected{border-color:#ffb52e;background:#fff4cf}.ok{border-color:#61c789;background:#e9fff0}.feedback{min-height:30px;font-weight:bold;margin:10px}
+@media(max-width:600px){.match{grid-template-columns:1fr}.map{height:620px}.cloud{width:125px;font-size:13px}.c{left:4%}.d{right:4%}}
+</style>
+</head>
+<body>
+<button id="sound" class="btn pink" style="position:fixed;right:10px;top:10px;z-index:10" onclick="soundOn()">🔊 Aktifkan Suara</button>
+
+<section class="page on" id="p1"><div class="card"><div class="hero">🌈☁️</div><div class="rainbow">🌈</div><h1>PETUALANGAN<br>SAHABAT PERSATUAN</h1><p class="sub">Kerja Sama dalam Keberagaman di Indonesia</p><div class="chars">👦🏻 🤝 👧🏻</div><p>Jelajahi misi bersama Bimo dan Naya!</p><button class="btn" onclick="go(2);say('Selamat datang di Petualangan Sahabat Persatuan')">🚀 MULAI PETUALANGAN</button></div></section>
+
+<section class="page" id="p2"><div class="card"><h2>👋 Kenalan Dulu</h2><input id="nama" placeholder="Nama lengkap"><input id="kelas" placeholder="Kelas"><input id="absen" placeholder="Nomor absen"><input id="sekolah" placeholder="Nama sekolah"><button class="btn" onclick="identity()">Lanjut ➜</button></div></section>
+
+<section class="page" id="p3"><div class="card"><h2>🎯 Tujuan Pembelajaran</h2><div class="grid"><div class="box">🌏 Mengenal keberagaman Indonesia</div><div class="box">🤝 Memahami kerja sama</div><div class="box">🫶 Menghargai perbedaan</div><div class="box">🇮🇩 Memahami Bahasa Indonesia sebagai bahasa persatuan</div><div class="box">❤️ Bangga terhadap Indonesia</div></div><button class="btn" onclick="go(4)">Menuju Materi ➜</button></div></section>
+
+<section class="page" id="p4"><div class="card"><h2>📚 Bekal Petualangan</h2><div class="grid"><div class="box"><b>🌈 Keberagaman</b><br>Indonesia memiliki banyak budaya, suku, bahasa, rumah adat, makanan, dan kesenian.</div><div class="box"><b>🤝 Gotong Royong</b><br>Bekerja bersama untuk tujuan yang baik.</div><div class="box"><b>🫶 Menghargai Perbedaan</b><br>Perbedaan menjadi kekayaan bangsa.</div><div class="box"><b>🇮🇩 Bahasa Persatuan</b><br>Bahasa Indonesia menyatukan kita.</div></div><button class="btn blue" onclick="go(5)">🏠 Mengenal Keberagaman</button><button class="btn" onclick="go(6)">🗺️ Peta Petualangan</button></div></section>
+
+<section class="page" id="p5"><div class="card"><h2>🏠 Mengenal Keberagaman</h2><p>Klik rumah adat untuk melihat berbagai contohnya.</p><div class="house" onclick="document.getElementById('houses').classList.toggle('hidden');say('Indonesia memiliki banyak rumah adat')">🏠</div><div id="houses" class="grid house-list hidden"><div class="box">Rumah Gadang — Sumatera Barat</div><div class="box">Rumah Bolon — Sumatera Utara</div><div class="box">Rumah Aceh — Aceh</div><div class="box">Rumah Limas — Sumatera Selatan</div><div class="box">Rumah Joglo — Jawa Tengah</div><div class="box">Rumah Kebaya — DKI Jakarta</div><div class="box">Rumah Tongkonan — Sulawesi Selatan</div><div class="box">Rumah Banua Tada — Sulawesi Tenggara</div><div class="box">Rumah Honai — Papua</div><div class="box">Rumah Lamin — Kalimantan Timur</div><div class="box">Rumah Baileo — Maluku</div><div class="box">Mbaru Niang — NTT</div></div><button class="btn" onclick="go(6)">Kembali ke Peta</button></div></section>
+
+<section class="page" id="p6"><div class="card"><h2>☁️ PETA PETUALANGAN 🌈</h2><p>Klik awan misi.</p><div class="map">
+<button class="cloud a" onclick="go(7)">🎯<br>Tebak Situasi</button><button class="cloud b" onclick="go(8)">⚡<br>Kuis Kilat</button><button class="cloud c" onclick="go(9)">🧩<br>Pasangkan</button><button class="cloud d" onclick="go(10)">📦<br>Drag & Drop</button><button class="cloud e" onclick="go(11)">🔗<br>Tarik Garis</button><button class="cloud f" onclick="go(12)">🏆<br>Evaluasi</button><div style="position:absolute;top:48%;left:43%;font-size:55px">👦🏻👧🏻</div></div></div></section>
+
+<section class="page" id="p7"><div class="card"><h2>🎯 Misi 1 — Tebak Situasi</h2><p id="sq"></p><div id="sc"></div><div id="sf" class="feedback"></div><button class="btn" onclick="nextS()">Soal Berikutnya</button><button class="btn blue" onclick="go(6)">Peta</button></div></section>
+
+<section class="page" id="p8"><div class="card"><h2>⚡ Misi 2 — Kuis Kilat</h2><p id="qq"></p><div id="qc"></div><div id="qf" class="feedback"></div><button class="btn" onclick="nextQ()">Soal Berikutnya</button><button class="btn blue" onclick="go(6)">Peta</button></div></section>
+
+<section class="page" id="p9"><div class="card"><h2>🧩 Misi 3 — Pasangkan</h2><p>Pasangkan gambar dengan keterangan yang benar.</p><div id="pairs" class="match"></div><div id="pf" class="feedback"></div><button class="btn blue" onclick="go(6)">Peta</button></div></section>
+
+<section class="page" id="p10"><div class="card"><h2>📦 Misi 4 — Drag & Drop</h2><p>Tarik kegiatan ke kategori yang sesuai.</p><div draggable="true" id="d1" ondragstart="drag(event)" class="box">🤝 Membersihkan kelas bersama</div><div draggable="true" id="d2" ondragstart="drag(event)" class="box">🍛 Mencoba makanan daerah</div><div id="drop1" class="box" ondragover="allow(event)" ondrop="drop(event,'d1')">Kotak: Kerja Sama</div><div id="drop2" class="box" ondragover="allow(event)" ondrop="drop(event,'d2')">Kotak: Menghargai Keberagaman</div><div id="df" class="feedback"></div><button class="btn blue" onclick="go(6)">Peta</button></div></section>
+
+<section class="page" id="p11"><div class="card"><h2>🔗 Misi 5 — Tarik Garis</h2><p>Tap gambar lalu tap keterangannya. Tidak ada jawaban yang sama di kedua sisi.</p><div id="linegame" class="match"></div><div id="lf" class="feedback"></div><button class="btn blue" onclick="go(6)">Peta</button></div></section>
+
+<section class="page" id="p12"><div class="card"><h2>🏆 Evaluasi</h2><p>Jawab 5 soal berikut.</p><div id="eval"></div><button class="btn" onclick="finish()">Selesai Evaluasi</button></div></section>
+
+<section class="page" id="p13"><div class="card"><div style="font-size:75px">🏅</div><h2>SAHABAT PERSATUAN</h2><p id="result"></p><button class="btn" onclick="go(14)">Refleksi ➜</button></div></section>
+
+<section class="page" id="p14"><div class="card"><h2>💭 Refleksi & Rubrik</h2><p style="text-align:left">1. Apa hal baru yang kamu pelajari tentang keberagaman?</p><textarea></textarea><p style="text-align:left">2. Sikap apa yang akan kamu lakukan saat bekerja dengan teman yang berbeda?</p><textarea></textarea><p style="text-align:left">3. Apa tindakanmu untuk menjaga persatuan?</p><textarea></textarea><div class="grid"><div class="box">Pemahaman: 1–4</div><div class="box">Menghargai keberagaman: 1–4</div><div class="box">Penerapan: 1–4</div><div class="box">Kelengkapan & kejelasan: 1–4</div></div><p>14–16 Sangat Baik • 11–13 Baik • 8–10 Cukup • 4–7 Perlu Bimbingan</p><button class="btn" onclick="go(15)">Penutup ➜</button></div></section>
+
+<section class="page" id="p15"><div class="card"><div class="hero">🌈🇮🇩</div><h1>PETUALANGAN SELESAI!</h1><p class="sub">Perbedaan membuat Indonesia kaya. Dengan saling menghargai, bergotong royong, dan menjaga persatuan, kita dapat menjadi sahabat dalam keberagaman.</p><div class="chars">👦🏻 🤝 👧🏻</div><p><b>“Berbeda bukan berarti terpisah. Bersama, kita menjadi Indonesia.”</b></p><button class="btn" onclick="location.reload()">🔄 Mulai Lagi</button></div></section>
+
+<script>
+let page=1,score=0,done=new Set(),sound=false,user={};
+function go(n){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));document.getElementById('p'+n).classList.add('on');page=n;scrollTo(0,0);if(n==7)showS();if(n==8)showQ();if(n==9)showPairs();if(n==11)showLines();if(n==12)showEval();if(n==13)document.getElementById('result').innerHTML='Nama: <b>'+user.nama+'</b><br>Kelas: <b>'+user.kelas+'</b><br>Total skor: <b>'+score+'</b><br>Misi yang mendapat poin: <b>'+done.size+'</b>'; }
+function soundOn(){sound=true;document.getElementById('sound').style.display='none';say('Suara aktif. Selamat belajar!')}
+function say(t){if(sound&&speechSynthesis){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='id-ID';speechSynthesis.speak(u)}}
+function identity(){if(!nama.value||!kelas.value){alert('Isi nama dan kelas terlebih dahulu ya 😊');return}user={nama:nama.value,kelas:kelas.value};go(3)}
+function point(n){score+=n;done.add(n);say('Benar! Sepuluh poin')}
+const S=[['Teman berbeda suku mengajak kerja kelompok. Sikap terbaik?',['Menolak','Bekerja sama dan saling menghargai','Mengejek'],1],['Saat kerja bakti kita sebaiknya…',['Bekerja bersama','Meninggalkan teman','Menyuruh satu orang'],0],['Teman membawa makanan khas daerah. Kita…',['Mengejek','Menghargai dan mengenal','Membuangnya'],1],['Pendapat teman berbeda. Kita…',['Mendengarkan','Marah','Memotong'],0],['Bahasa Indonesia adalah…',['Bahasa persatuan','Bahasa satu daerah','Bahasa rahasia'],0]];let si=0;
+function showS(){let q=S[si%S.length];sq.textContent=q[0];sc.innerHTML=q[1].map((x,i)=>'<button class="choice" onclick="ansS('+i+','+q[2]+')">'+x+'</button>').join('');sf.textContent=''}
+function ansS(i,c){sf.textContent=i==c?'✅ Benar! +10':'❌ Belum tepat.';if(i==c)point(10)}function nextS(){si++;showS()}
+const Q=[['Contoh gotong royong adalah…',['Membersihkan lingkungan bersama','Bermain sendiri','Mengejek teman'],0],['Rumah Gadang berasal dari…',['Papua','Sumatera Barat','Jawa'],1],['Sikap terhadap perbedaan adalah…',['Menghargai','Mengejek','Menjauhi'],0],['Bahasa persatuan Indonesia adalah…',['Bahasa Indonesia','Bahasa daerah','Bahasa asing'],0],['Kerja sama membuat pekerjaan…',['Lebih ringan','Mustahil','Lebih buruk'],0]];let qi=0;
+function showQ(){let q=Q[qi%Q.length];qq.textContent=q[0];qc.innerHTML=q[1].map((x,i)=>'<button class="choice" onclick="ansQ('+i+','+q[2]+')">'+x+'</button>').join('');qf.textContent=''}
+function ansQ(i,c){qf.textContent=i==c?'⚡ Benar! +10':'❌ Coba lagi.';if(i==c)point(10)}function nextQ(){qi++;showQ()}
+const P=[['🏠','Rumah adat dari Sumatera Utara'],['👘','Pakaian adat dari Sulawesi Selatan'],['🍛','Makanan tradisional dari Sumatera Barat'],['🎵','Alat musik tradisional dari Jawa Barat'],['🤝','Bekerja bersama untuk tujuan yang sama'],['🇮🇩','Bahasa yang digunakan sebagai bahasa persatuan'],['🛖','Rumah adat dari Jawa Tengah'],['🥁','Alat musik tradisional dari Papua dan Maluku']];let sel=null,ok=new Set();
+function showPairs(){ok=new Set();sel=null;pairs.innerHTML=P.map((x,i)=>'<button class="item" id="l'+i+'" onclick="pickP('+i+')">'+x[0]+'</button>').join('')+P.map((x,i)=>'<button class="item" id="r'+i+'" onclick="ansP('+i+')">'+x[1]+'</button>').join('')}
+function pickP(i){sel=i;document.querySelectorAll('#pairs .item').forEach(x=>x.classList.remove('selected'));document.getElementById('l'+i).classList.add('selected');pf.textContent='Pilih keterangannya.'}
+function ansP(i){if(sel===null){pf.textContent='Pilih gambar dulu.';return}if(i===sel&&!ok.has(i)){ok.add(i);document.getElementById('l'+i).classList.add('ok');document.getElementById('r'+i).classList.add('ok');point(10);pf.textContent='✅ Cocok! +10'}else if(i!==sel)pf.textContent='❌ Belum cocok.';sel=null}
+function allow(e){e.preventDefault()}function drag(e){e.dataTransfer.setData('id',e.target.id)}function drop(e,id){e.preventDefault();let el=document.getElementById(id);if((id==='d1'&&e.currentTarget.id==='drop1')||(id==='d2'&&e.currentTarget.id==='drop2')){e.currentTarget.appendChild(el);e.currentTarget.classList.add('ok');df.textContent='✅ Tepat! +10';point(10)}else df.textContent='❌ Coba kotak lain.'}
+const L=[['🏠','Rumah adat'],['🍛','Makanan tradisional'],['🎶','Alat musik tradisional'],['🤝','Gotong royong'],['🇮🇩','Bahasa persatuan']];let ls=null,lok=new Set();
+function showLines(){lok=new Set();ls=null;linegame.innerHTML=L.map((x,i)=>'<button class="item" id="a'+i+'" onclick="pickL('+i+')">'+x[0]+'</button>').join('')+L.map((x,i)=>'<button class="item" id="b'+i+'" onclick="ansL('+i+')">'+x[1]+'</button>').join('');lf.textContent=''}
+function pickL(i){ls=i;document.querySelectorAll('#linegame .item').forEach(x=>x.classList.remove('selected'));document.getElementById('a'+i).classList.add('selected')}
+function ansL(i){if(ls===null){lf.textContent='Pilih gambar dulu.';return}if(i===ls&&!lok.has(i)){lok.add(i);document.getElementById('a'+i).classList.add('ok');document.getElementById('b'+i).classList.add('ok');point(10);lf.textContent='✅ Terhubung! +10'}else if(i!==ls)lf.textContent='❌ Belum sesuai.';ls=null}
+const E=[['Contoh kerja sama di sekolah adalah…',['Mengerjakan tugas kelompok bersama','Mengejek teman','Tidak membantu'],0],['Perbedaan budaya sebaiknya…',['Dihargai','Diejek','Dihindari'],0],['Rumah Bolon berasal dari…',['Sumatera Utara','Bali','Papua'],0],['Gotong royong berarti…',['Bekerja bersama','Bekerja sendiri','Bermain sendiri'],0],['Bahasa Indonesia adalah…',['Bahasa persatuan','Bahasa daerah tertentu','Bahasa rahasia'],0]];
+function showEval(){eval.innerHTML=E.map((q,n)=>'<div class="box" style="text-align:left"><b>'+(n+1)+'. '+q[0]+'</b>'+q[1].map((x,i)=>'<label style="display:block"><input style="width:auto" type="radio" name="e'+n+'" value="'+i+'">'+x+'</label>').join('')+'</div>').join('')}
+function finish(){let b=0;E.forEach((q,n)=>{let x=document.querySelector('input[name=e'+n+']:checked');if(x&&+x.value===q[2])b++});score+=b*10;alert('Evaluasi selesai! Benar '+b+' dari '+E.length+'.');go(13)}
+</script>
+</body></html>
